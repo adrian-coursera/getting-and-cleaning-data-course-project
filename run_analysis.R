@@ -19,7 +19,7 @@ labels <- rbind(y_test, y_train)
 set <- rbind(x_test,x_train)
 
 #3 - Uses descriptive activity names to name the activities in the data set
-labels <- join(labels, activity_labels)
+labels <- inner_join(labels, activity_labels)
 
 
 merged_data <- cbind(subjects, labels$V2, set)
@@ -31,4 +31,6 @@ colnames(merged_data) <- c('subject', 'activity', tolower(features$V2))
 merged_data <- merged_data[,grepl('subject|activity|std\\(\\)|mean\\(\\)',names(merged_data))]
 
 #5 - From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-summary_data <- merged_data %>% group_by(subject,activity) %>% summarise_all(funs(mean))
+summary_data <- merged_data %>% group_by(subject,activity) %>% summarise_all(list(mean))
+
+write.table(summary_data, file='./summary_data.txt', row.names = FALSE)

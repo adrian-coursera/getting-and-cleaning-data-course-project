@@ -31,6 +31,6 @@ colnames(merged_data) <- c('subject', 'activity', tolower(features$V2))
 merged_data <- merged_data[,grepl('subject|activity|std\\(\\)|mean\\(\\)',names(merged_data))]
 
 #5 - From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-summary_data <- merged_data %>% group_by(subject,activity) %>% summarise_all(list(mean))
+summary_data <- merged_data %>% group_by(subject,activity) %>% summarise_all(funs(mean))
 
 write.table(summary_data, file='./summary_data.txt', row.names = FALSE)
